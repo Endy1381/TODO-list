@@ -23,6 +23,10 @@ function App() {
       }
       setTodos([...todos,newTodo])
     }
+    function handleDelete(e, id) {
+      e.preventDefault()
+      setTodos(todos.filter(todos => todos.id !== id))
+    }
 
   return (
     <>
@@ -46,7 +50,12 @@ function App() {
             <ul>
                 {todos.map(todo => {
                     return (
-                        <li key={todo.id}>{todo.name}, {todo.id}</li>
+                        <div className="flex items-center">
+                            <li key={todo.id}>{todo.name}, {todo.id}</li>
+                            <button className="mx-5 text-white px-3 py-1 bg-rose-800" onClick={(e) => handleDelete(e, todo.id)}>Remove
+                            </button>
+                        </div>
+
                     )
                 })}
             </ul>
