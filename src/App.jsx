@@ -1,14 +1,24 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import Logo from './assets/logo.png'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [todo, setTodo] = useState(0)
 
   return (
     <>
-      <h1 className="text-green-500">haloo</h1>
+      <header className="flex items-center justify-between px-6">
+          <img src={Logo} alt="" className="w-24"/>
+          <nav className="flex items-center list-none">
+              <li className="text-2xl mx-2">Todo</li>
+              <li className="text-2xl mx-2">About</li>
+          </nav>
+      </header>
+
+    {/*  input  */}
+        <section>
+
+        </section>
     </>
   )
 }
