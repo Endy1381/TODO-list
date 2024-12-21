@@ -27,8 +27,15 @@ function App() {
       e.preventDefault()
       setTodos(todos.filter(todos => todos.id !== id))
     }
+    function handleCompletion(id) {
+        setTodos(todos.map(todo =>
+            todo.id === id
+                ? { ...todo, completed: true } // Toggle the `completed` status
+                : todo // Leave other todos unchanged
+        ));
+    }
 
-  return (
+    return (
     <>
       <header className="flex items-center justify-between px-6">
           <img src={Logo} alt="" className="w-24"/>
@@ -43,6 +50,7 @@ function App() {
             insert your TODO here
         </h1>
         <section className="flex justify-center items-center">
+
             <input type="text" ref={input} className="border px-5 py-3"/>
             <button className="mx-5 text-white px-5 py-3 bg-emerald-800" onClick={handleClick}>Add</button>
         </section>
@@ -50,10 +58,13 @@ function App() {
             <ul>
                 {todos.map(todo => {
                     return (
-                        <div className="flex items-center">
-                            <li key={todo.id}>{todo.name}, {todo.id}</li>
-                            <button className="mx-5 text-white px-3 py-1 bg-rose-800" onClick={(e) => handleDelete(e, todo.id)}>Remove
-                            </button>
+                        // eslint-disable-next-line react/jsx-key
+                        <div className="flex items-center justify-center text-2xl">
+                            {todo.completed === false ? <li className="text-red-900" key={todo.id}>{todo.name}, {todo.id}</li> :
+                                <li className="text-green-800" key={todo.id}>{todo.name}, {todo.id}</li>}
+
+                            <button className="ml-5 text-white px-3 py-1 bg-rose-800" onClick={(e) => handleDelete(e, todo.id)}>Remove</button>
+                            <button className=" text-white px-3 py-1 bg-cyan-800" onClick={() => handleCompletion(todo.id)}>Completed?</button>
                         </div>
 
                     )
