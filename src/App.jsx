@@ -4,13 +4,15 @@ import Logo from './assets/logo.png'
 import log from "eslint-plugin-react/lib/util/log.js";
 
 function App() {
-  const [todos, setTodos] = useState([
-      {
-          id: 1,
-          name: "bruhh",
-          completed: false
-      }
-  ])
+    const storedTodo = JSON.parse(localStorage.getItem('todos') )|| [
+        {
+            id: 1,
+            name: "initial",
+            completed: false
+        }
+    ]
+  const [todos, setTodos] = useState(storedTodo)
+
     const input = useRef(null)
     const lastTodo = todos.at(-1)
     console.log(lastTodo)
@@ -22,6 +24,7 @@ function App() {
           completed: false
       }
       setTodos([...todos,newTodo])
+      input.current.value = ''
     }
     function handleDelete(e, id) {
       e.preventDefault()
@@ -34,6 +37,19 @@ function App() {
                 : todo // Leave other todos unchanged
         ));
     }
+    function handleReset() {
+        let restedTodo = [
+            {
+                id: 1,
+                name: "initial",
+                completed: false
+            }
+        ]
+        setTodos(restedTodo)
+    }
+    useEffect(() => {
+        localStorage.setItem("todos", JSON.stringify(todos))
+    }, [todos])
 
     return (
     <>
@@ -52,11 +68,12 @@ function App() {
         <section className="flex justify-center items-center">
 
             <input type="text" ref={input} className="border px-5 py-3"/>
-            <button className="mx-5 text-white px-5 py-3 bg-emerald-800" onClick={handleClick}>Add</button>
+            <button className=" mx-1 text-white px-5 py-3 bg-emerald-800" onClick={handleClick}>Add</button>
+            <button className=" text-white px-5 py-3 bg-red-800" onClick={handleReset}>Reset</button>
         </section>
         <section className="flex justify-center items-center">
             <ul>
-                {todos.map(todo => {
+            {todos.map(todo => {
                     return (
                         // eslint-disable-next-line react/jsx-key
                         <div className="flex items-center justify-center text-2xl">
