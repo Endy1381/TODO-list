@@ -1,42 +1,38 @@
-import { useState, useRef, useEffect } from 'react'
-import './App.css'
-import Logo from './assets/logo.png'
-import log from "eslint-plugin-react/lib/util/log.js";
+import { useState, useRef, useEffect } from 'react';
+import './App.css';
+import Logo from './assets/logo.png';
+import log from 'eslint-plugin-react/lib/util/log.js';
 
 function App() {
-    const storedTodo = JSON.parse(localStorage.getItem('todos') )|| [
+
+    const storedTodo = JSON.parse(localStorage.getItem('todos')) || [
         {
             id: 1,
             name: "initial",
-            completed: false
         }
-    ]
-  const [todos, setTodos] = useState(storedTodo)
+    ];
+    const [todos, setTodos] = useState(storedTodo);
 
-    const input = useRef(null)
-    const lastTodo = todos.at(-1)
-    console.log(lastTodo)
+    const input = useRef(null);
+    const lastTodo = todos.at(-1);
+    console.log(lastTodo);
+
     function handleClick(e) {
-      e.preventDefault()
-      let newTodo = {
-          id: lastTodo['id'] + 1,
-          name: input.current.value,
-          completed: false
-      }
-      setTodos([...todos,newTodo])
-      input.current.value = ''
+        e.preventDefault();
+        let newTodo = {
+            id: lastTodo ? lastTodo.id + 1 : 1,
+            name: input.current.value,
+            completed: false
+        };
+        setTodos([...todos, newTodo]);
+        input.current.value = '';
     }
+
     function handleDelete(e, id) {
-      e.preventDefault()
-      setTodos(todos.filter(todos => todos.id !== id))
+        e.preventDefault();
+        setTodos(todos.filter(todos => todos.id !== id));
     }
-    function handleCompletion(id) {
-        setTodos(todos.map(todo =>
-            todo.id === id
-                ? { ...todo, completed: true } // Toggle the `completed` status
-                : todo // Leave other todos unchanged
-        ));
-    }
+
     function handleReset() {
         let restedTodo = [
             {
@@ -44,52 +40,47 @@ function App() {
                 name: "initial",
                 completed: false
             }
-        ]
-        setTodos(restedTodo)
+        ];
+        setTodos(restedTodo);
     }
+
     useEffect(() => {
-        localStorage.setItem("todos", JSON.stringify(todos))
-    }, [todos])
+        localStorage.setItem("todos", JSON.stringify(todos));
+    }, [todos]);
 
     return (
-    <>
-      <header className="flex items-center justify-between px-6">
-          <img src={Logo} alt="" className="w-24"/>
-          <nav className="flex items-center list-none">
-              <li className="text-2xl mx-2">Todo</li>
-              <li className="text-2xl mx-2">About</li>
-          </nav>
-      </header>
+        <>
+            {/*  input  */}
+            <main
+                className=" px-10 py-1 pt-5 rounded-3xl bg-white fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 py-10">
+                <h1 className="text-3xl  mb-8 text-center">
+                    insert your TODO here
+                </h1>
+                <section className="flex justify-center items-center">
+                    <input type="text" ref={input} className=" px-5 py-3 bg-gray-200"/>
+                    <button className=" mx-1 text-white px-5 py-3 bg-blue-900" onClick={handleClick}>+</button>
+                    <button className=" text-white px-5 py-3  bg-indigo-800" onClick={handleReset}>Reset</button>
+                </section>
+                <section className="flex items-center">
+                    <ul>
+                        {todos.map(todo => {
+                            return (
+                                <div className="flex items-center justify-between text-2xl " key={todo.id}>
 
-    {/*  input  */}
-        <h1 className="text-3xl  mb-8 text-center">
-            insert your TODO here
-        </h1>
-        <section className="flex justify-center items-center">
+                                        <li className=" pr-5 ml-2 py-3 mr-40">{todo.name}</li> :
 
-            <input type="text" ref={input} className="border px-5 py-3"/>
-            <button className=" mx-1 text-white px-5 py-3 bg-emerald-800" onClick={handleClick}>Add</button>
-            <button className=" text-white px-5 py-3 bg-red-800" onClick={handleReset}>Reset</button>
-        </section>
-        <section className="flex justify-center items-center">
-            <ul>
-            {todos.map(todo => {
-                    return (
-                        // eslint-disable-next-line react/jsx-key
-                        <div className="flex items-center justify-center text-2xl">
-                            {todo.completed === false ? <li className="text-red-900" key={todo.id}>{todo.name}, {todo.id}</li> :
-                                <li className="text-green-800" key={todo.id}>{todo.name}, {todo.id}</li>}
-
-                            <button className="ml-5 text-white px-3 py-1 bg-rose-800" onClick={(e) => handleDelete(e, todo.id)}>Remove</button>
-                            <button className=" text-white px-3 py-1 bg-cyan-800" onClick={() => handleCompletion(todo.id)}>Completed?</button>
-                        </div>
-
-                    )
-                })}
-            </ul>
-        </section>
-    </>
-  )
+                                    <button className="ml-5 text-white px-5 py-3 bg-pink-500" onClick={(e) => handleDelete(e, todo.id)}>-</button>
+                                </div>
+                            );
+                        })}
+                    </ul>
+                </section>
+            </main>
+            <footer className="fixed bottom-0 right-0 px-6 mt-96">
+                <img src={Logo} alt="" className="w-10"/>
+            </footer>
+        </>
+    );
 }
 
-export default App
+export default App;
