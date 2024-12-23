@@ -4,7 +4,6 @@ import Logo from './assets/logo.png';
 import log from 'eslint-plugin-react/lib/util/log.js';
 
 function App() {
-
     const storedTodo = JSON.parse(localStorage.getItem('todos')) || [
         {
             id: 1,
@@ -52,23 +51,21 @@ function App() {
         <>
             {/*  input  */}
             <main
-                className=" px-10 py-1 pt-5 rounded-3xl bg-white fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 py-10">
-                <h1 className="text-3xl  mb-8 text-center">
-                    insert your TODO here
+                className="px-10 py-10 pt-5 rounded-3xl bg-white fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 py-10">
+                <h1 className="text-3xl mb-8 text-center">
+                    TODO
                 </h1>
                 <section className="flex justify-center items-center">
-                    <input type="text" ref={input} className=" px-5 py-3 bg-gray-200"/>
-                    <button className=" mx-1 text-white px-5 py-3 bg-blue-900" onClick={handleClick}>+</button>
-                    <button className=" text-white px-5 py-3  bg-indigo-800" onClick={handleReset}>Reset</button>
+                    <input type="text" ref={input} className="px-5 py-3 bg-gray-200"/>
+                    <button className="mx-1 text-white px-5 py-3 bg-blue-900" onClick={handleClick}>+</button>
+                    <button className="text-white px-5 py-3 bg-indigo-800" onClick={handleReset}>Reset</button>
                 </section>
-                <section className="flex items-center">
+                <section >
                     <ul>
                         {todos.map(todo => {
                             return (
-                                <div className="flex items-center justify-between text-2xl " key={todo.id}>
-
-                                        <li className=" pr-5 ml-2 py-3 mr-40">{todo.name}</li> :
-
+                                <div className="flex items-center justify-between text-2xl" key={todo.id}>
+                                    <li className="pr-5 ml-2 py-3 mr-40">{todo.name}</li>
                                     <button className="ml-5 text-white px-5 py-3 bg-pink-500" onClick={(e) => handleDelete(e, todo.id)}>-</button>
                                 </div>
                             );
@@ -76,7 +73,13 @@ function App() {
                     </ul>
                 </section>
             </main>
-            <footer className="fixed bottom-0 right-0 px-6 mt-96">
+            <footer className="fixed flex items-center bottom-0 right-0 px-6 mt-96">
+                <div className="flex flex-col">
+                    made by Natnael Yohannes (Ender/Endy)<br/>
+
+                    <a href="https://github.com/Endy1381" className="text-gray-400 hover:text-white">Check Endy1381's GitHub page to see more projects</a>
+                </div>
+
                 <img src={Logo} alt="" className="w-10"/>
             </footer>
         </>
